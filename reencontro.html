@@ -99,6 +99,7 @@
                 font-size: 1.2em;
             }
         }
+        /* Estilos para o botão de pular foram removidos daqui e aplicados via Tailwind */
     </style>
 </head>
 <body>
@@ -135,6 +136,9 @@
         <div id="media-display" class="flex justify-center items-center min-h-[200px]">
             <p>Carregando nossa lembrança do dia...</p>
         </div>
+        <button id="pularMidiaBtn" class="mt-4 px-6 py-2 bg-blue-500 text-white font-lora rounded-lg shadow hover:bg-blue-600 transition-colors duration-200 ease-in-out disabled:bg-gray-300 disabled:cursor-not-allowed">
+            Próxima Lembrança ➔
+        </button>
     </div>
 
     <footer class="footer-message">
@@ -150,21 +154,62 @@
         const elementoSegundos = document.getElementById('segundos');
         const elementoMensagemReencontro = document.getElementById('reencontro-msg');
         const elementoCountdown = document.getElementById('countdown');
+        const pularMidiaBtn = document.getElementById('pularMidiaBtn'); 
 
-        // IMPORTANTE: Adicione aqui as URLs das suas mídias (fotos e vídeos)
-        // Você pode usar URLs de serviços de hospedagem de imagens/vídeos (como Imgur, Google Photos - link direto, etc.)
-        // ou se hospedar junto com o site (ex: numa pasta 'midias/')
         const midias = [
-            { type: 'image', url: 'midias/Captura de tela 2025-06-02 153937.png' },
-            { type: 'image', url: 'https://placehold.co/600x400/c2e9fb/333?text=Outra+Memória+Especial+2', alt: 'Outra Memória Especial 2' },
-            { type: 'video', url: 'https://www.w3schools.com/html/mov_bbb.mp4', alt: 'Nosso Vídeo Divertido' }, // Exemplo de vídeo
-            { type: 'image', url: 'https://placehold.co/600x400/89a7c1/fff?text=Lembrança+Inesquecível+3', alt: 'Lembrança Inesquecível 3' },
-            // Adicione mais objetos de mídia aqui. Exemplo:
-            // { type: 'image', url: 'caminho/para/sua/foto.jpg', alt: 'Descrição da foto' },
-            // { type: 'video', url: 'caminho/para/seu/video.mp4', alt: 'Descrição do vídeo' },
+            { type: 'image', url: 'midias/20230704_183424.jpg', alt: 'Lembrança 1' },
+            { type: 'image', url: 'midias/20230704_184139.jpg', alt: 'Lembrança 2' },
+            { type: 'image', url: 'midias/20230708_231834.jpg', alt: 'Lembrança 3' },
+            { type: 'image', url: 'midias/20230711_161609.jpg', alt: 'Lembrança 4' },
+            { type: 'image', url: 'midias/20230927_203504-COLLAGE.jpg', alt: 'Lembrança 5' },
+            { type: 'image', url: 'midias/20231217_180717.jpg', alt: 'Lembrança 6' },
+            { type: 'image', url: 'midias/20231217_182056.jpg', alt: 'Lembrança 7' },
+            { type: 'image', url: 'midias/20240525_130613.jpg', alt: 'Lembrança 8' },
+            { type: 'image', url: 'midias/20240526_122510.jpg', alt: 'Lembrança 9' },
+            { type: 'image', url: 'midias/20240526_123443.jpg', alt: 'Lembrança 10' },
+            { type: 'image', url: 'midias/20240526_131353.jpg', alt: 'Lembrança 11' },
+            { type: 'image', url: 'midias/20240526_194852.jpg', alt: 'Lembrança 12' },
+            { type: 'image', url: 'midias/20240601_023230.jpg', alt: 'Lembrança 13' },
+            { type: 'image', url: 'midias/20240713_205446.jpg', alt: 'Lembrança 14' },
+            { type: 'image', url: 'midias/20240731_205730.jpg', alt: 'Lembrança 15' },
+            { type: 'image', url: 'midias/20240731_205740.jpg', alt: 'Lembrança 16' },
+            { type: 'image', url: 'midias/20240731_205743.jpg', alt: 'Lembrança 17' },
+            { type: 'image', url: 'midias/20241031_175350.jpg', alt: 'Lembrança 18' },
+            { type: 'image', url: 'midias/20241108_222840.jpg', alt: 'Lembrança 19' },
+            { type: 'image', url: 'midias/20241108_222847.jpg', alt: 'Lembrança 20' },
+            { type: 'image', url: 'midias/20250302_110626.jpg', alt: 'Lembrança 21' },
+            { type: 'image', url: 'midias/20250323_182352.jpg', alt: 'Lembrança 22' },
+            { type: 'image', url: 'midias/20250323_182653.jpg', alt: 'Lembrança 23' },
+            { type: 'image', url: 'midias/20250404_223001.jpg', alt: 'Lembrança 24' },
+            { type: 'image', url: 'midias/20250404_223007.jpg', alt: 'Lembrança 25' },
+            { type: 'image', url: 'midias/20250412_182808.jpg', alt: 'Lembrança 26' },
+            { type: 'image', url: 'midias/20250412_182810.jpg', alt: 'Lembrança 27' },
+            { type: 'image', url: 'midias/Captura de tela 2025-06-02 153937.png', alt: 'Lembrança 28' },
+            { type: 'image', url: 'midias/IMG_20220903_154335-COLLAGE.jpg', alt: 'Lembrança 29' },
+            { type: 'image', url: 'midias/IMG_20230604_201134-COLLAGE.jpg', alt: 'Lembrança 30' },
+            { type: 'image', url: 'midias/IMG_20231114_201125.jpg', alt: 'Lembrança 31' },
+            { type: 'image', url: 'midias/IMG_20231114_201133.jpg', alt: 'Lembrança 32' },
+            { type: 'image', url: 'midias/IMG_20231114_201248.jpg', alt: 'Lembrança 33' },
+            { type: 'image', url: 'midias/IMG_20231114_201525.jpg', alt: 'Lembrança 34' },
+            { type: 'image', url: 'midias/IMG_20231114_201555.jpg', alt: 'Lembrança 35' },
+            { type: 'image', url: 'midias/IMG_20231114_202205.jpg', alt: 'Lembrança 36' },
+            { type: 'image', url: 'midias/IMG_20231114_202503.jpg', alt: 'Lembrança 37' },
+            { type: 'image', url: 'midias/IMG_20231202_190600.jpg', alt: 'Lembrança 38' },
+            { type: 'image', url: 'midias/IMG_20231220_092025.jpg', alt: 'Lembrança 39' },
+            { type: 'image', url: 'midias/IMG_20240101_110747.jpg', alt: 'Lembrança 40' },
+            { type: 'image', url: 'midias/IMG_20240101_110750.jpg', alt: 'Lembrança 41' },
+            { type: 'image', url: 'midias/Screenshot_20231122_191940_Instagram.jpg', alt: 'Lembrança 42' },
+            { type: 'image', url: 'midias/Screenshot_20240610-213533_Photos.jpg', alt: 'Lembrança 43' },
+            { type: 'image', url: 'midias/Screenshot_20240612_071438_Photos.jpg', alt: 'Lembrança 44' },
+            { type: 'image', url: 'midias/Screenshot_20240612_071529_Photos.jpg', alt: 'Lembrança 45' },
+            { type: 'image', url: 'midias/Screenshot_20240612_071859_Photos.jpg', alt: 'Lembrança 46' },
+            { type: 'image', url: 'midias/Screenshot_20250519_182816_Photos.jpg', alt: 'Lembrança 47' },
+            { type: 'image', url: 'midias/20230609_213746.jpg', alt: 'Lembrança 48' },
+            { type: 'image', url: 'midias/20230704_182914.jpg', alt: 'Lembrança 49' }
         ];
 
-        // --- Lógica do Contador Regressivo ---
+        let indiceMidiaAtual = 0; 
+
         function atualizarContador() {
             const agora = new Date().getTime();
             const diferenca = dataReencontro - agora;
@@ -173,7 +218,7 @@
                 elementoCountdown.classList.add('hidden');
                 elementoMensagemReencontro.textContent = "Chegou o grande dia! Finalmente juntos! ❤️";
                 elementoMensagemReencontro.classList.remove('hidden');
-                clearInterval(intervaloContador); // Para o contador
+                clearInterval(intervaloContador); 
                 return;
             }
 
@@ -188,7 +233,6 @@
             elementoSegundos.textContent = String(segundos).padStart(2, '0');
         }
 
-        // --- Lógica da Mídia Diária ---
         function getDiaDoAno(data) {
             const inicioDoAno = new Date(data.getFullYear(), 0, 0);
             const diff = data - inicioDoAno;
@@ -196,45 +240,44 @@
             return Math.floor(diff / umDiaEmMs);
         }
 
-        function atualizarMidia() {
-            const hoje = new Date();
-            const diaDoAno = getDiaDoAno(hoje);
+        function mostrarMidiaAtual() {
             const midiaContainer = document.getElementById('media-display');
-            midiaContainer.innerHTML = ''; // Limpa a mídia anterior
+            midiaContainer.innerHTML = ''; 
 
             if (!midias || midias.length === 0) {
                 midiaContainer.innerHTML = '<p class="text-gray-600">Adicione suas mídias na lista do arquivo HTML para vê-las aqui!</p>';
+                pularMidiaBtn.disabled = true; 
                 return;
             }
+            
+            pularMidiaBtn.disabled = midias.length <= 1; 
 
-            const indiceMidia = diaDoAno % midias.length; // Faz um rodízio pelas mídias disponíveis
-            const midiaAtual = midias[indiceMidia];
+            const midiaAtual = midias[indiceMidiaAtual];
 
             if (midiaAtual.type === 'image') {
                 const img = document.createElement('img');
                 img.src = midiaAtual.url;
                 img.alt = midiaAtual.alt || 'Imagem especial do dia';
-                // Adiciona um fallback para a imagem
                 img.onerror = function() {
-                    this.onerror=null; // Previne loop infinito se o placeholder também falhar
+                    this.onerror=null; 
                     this.src='https://placehold.co/600x400/FF0000/FFFFFF?text=Erro+ao+carregar+imagem';
                     this.alt='Erro ao carregar imagem';
                 };
                 midiaContainer.appendChild(img);
             } else if (midiaAtual.type === 'video') {
+                // Lógica para vídeo (mantida caso você adicione vídeos no futuro)
                 const video = document.createElement('video');
                 video.controls = true;
                 video.autoplay = true;
-                video.muted = true; // Autoplay geralmente requer que o vídeo esteja mudo
+                video.muted = true; 
                 video.loop = true;
                 video.alt = midiaAtual.alt || 'Vídeo especial do dia';
 
                 const source = document.createElement('source');
                 source.src = midiaAtual.url;
-                source.type = 'video/mp4'; // Assumindo MP4. Adicione mais <source> para outros formatos se necessário
+                source.type = 'video/mp4'; 
 
                 video.appendChild(source);
-                // Fallback para navegadores que não suportam a tag video ou o formato
                 video.appendChild(document.createTextNode('Seu navegador não suporta o elemento de vídeo ou o formato do arquivo.'));
                 video.onerror = function() {
                     midiaContainer.innerHTML = '<p class="text-red-500">Erro ao carregar o vídeo. Verifique a URL.</p>';
@@ -242,20 +285,34 @@
                 midiaContainer.appendChild(video);
                 video.play().catch(e => {
                     console.warn("Autoplay do vídeo bloqueado ou falhou:", e);
-                    // O navegador pode bloquear o autoplay se não houver interação do usuário ou se não estiver mudo.
-                    // 'controls' permite que o usuário inicie manualmente.
                 });
             }
         }
+        
+        function definirMidiaInicial() {
+            if (midias && midias.length > 0) {
+                const hoje = new Date();
+                const diaDoAno = getDiaDoAno(hoje);
+                indiceMidiaAtual = diaDoAno % midias.length; 
+            } else {
+                indiceMidiaAtual = 0; 
+            }
+            mostrarMidiaAtual(); 
+        }
+
+        pularMidiaBtn.addEventListener('click', function() {
+            if (midias && midias.length > 0) { 
+                indiceMidiaAtual = (indiceMidiaAtual + 1) % midias.length; 
+                mostrarMidiaAtual(); 
+            }
+        });
 
         // --- Inicialização ---
-        atualizarContador(); // Chama uma vez para não esperar 1 segundo para mostrar
+        atualizarContador(); 
         const intervaloContador = setInterval(atualizarContador, 1000);
         
-        atualizarMidia(); // Carrega a mídia do dia ao iniciar
+        definirMidiaInicial(); 
 
-        // Opcional: Atualizar a mídia periodicamente (ex: a cada hora) se o usuário deixar a página aberta
-        // setInterval(atualizarMidia, 1000 * 60 * 60); // A cada hora
     </script>
 
 </body>
