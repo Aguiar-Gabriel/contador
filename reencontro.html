@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contando os Segundos Para Te Ver!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lora', serif;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); /* Tons de azul suaves */
+            color: #333; /* Cor de texto principal */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .great-vibes {
+            font-family: 'Great Vibes', cursive;
+            color: #2c3e50; /* Azul escuro para o título */
+        }
+        .countdown-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            margin-bottom: 30px;
+            max-width: 90%;
+            width: 500px; /* Largura fixa para o contador, mas responsivo */
+        }
+        .countdown-item {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: rgba(44, 62, 80, 0.1); /* Fundo sutil para itens do contador */
+        }
+        .countdown-item span {
+            display: block;
+            font-size: 2.5em; /* Tamanho dos números */
+            font-weight: bold;
+            color: #2980b9; /* Azul para os números */
+        }
+        .countdown-item p {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            color: #34495e; /* Cinza azulado para as legendas */
+        }
+        .media-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 500px; /* Mesma largura do contador para consistência */
+        }
+        .media-container img, .media-container video {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px; /* Altura máxima para a mídia */
+            border-radius: 8px;
+            object-fit: contain; /* Garante que a mídia caiba sem cortar, mantendo proporção */
+        }
+        .footer-message {
+            margin-top: 30px;
+            font-style: italic;
+            color: #34495e;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 600px) {
+            .countdown-container, .media-container {
+                width: 100%;
+                padding: 15px;
+            }
+            .countdown-item {
+                margin: 5px;
+                padding: 8px;
+            }
+            .countdown-item span {
+                font-size: 1.8em;
+            }
+            .countdown-item p {
+                font-size: 0.8em;
+            }
+            h1.great-vibes {
+                font-size: 2.5em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="text-5xl md:text-6xl great-vibes mb-4">Nosso Reencontro</h1>
+        <h2 class="text-xl md:text-2xl text-gray-700 mb-6">Contando cada segundo para te abraçar novamente!</h2>
+    </header>
+
+    <div class="countdown-container">
+        <div id="countdown" class="text-center">
+            <div class="countdown-item">
+                <span id="dias">00</span>
+                <p>Dias</p>
+            </div>
+            <div class="countdown-item">
+                <span id="horas">00</span>
+                <p>Horas</p>
+            </div>
+            <div class="countdown-item">
+                <span id="minutos">00</span>
+                <p>Minutos</p>
+            </div>
+            <div class="countdown-item">
+                <span id="segundos">00</span>
+                <p>Segundos</p>
+            </div>
+        </div>
+        <p id="reencontro-msg" class="mt-4 text-lg text-blue-700 font-semibold hidden"></p>
+    </div>
+
+    <div class="media-container">
+        <h3 class="text-2xl great-vibes mb-3 text-blue-600">Lembranças de Nós</h3>
+        <div id="media-display" class="flex justify-center items-center min-h-[200px]">
+            <p>Carregando nossa lembrança do dia...</p>
+        </div>
+    </div>
+
+    <footer class="footer-message">
+        <p>"A distância mais longa é aquela entre a cabeça e o coração, mas a nossa está só entre cidades."</p>
+    </footer>
+
+    <script>
+        // --- Configurações ---
+        const dataReencontro = new Date('2025-07-14T17:20:00').getTime();
+        const elementoDias = document.getElementById('dias');
+        const elementoHoras = document.getElementById('horas');
+        const elementoMinutos = document.getElementById('minutos');
+        const elementoSegundos = document.getElementById('segundos');
+        const elementoMensagemReencontro = document.getElementById('reencontro-msg');
+        const elementoCountdown = document.getElementById('countdown');
+
+        // IMPORTANTE: Adicione aqui as URLs das suas mídias (fotos e vídeos)
+        // Você pode usar URLs de serviços de hospedagem de imagens/vídeos (como Imgur, Google Photos - link direto, etc.)
+        // ou se hospedar junto com o site (ex: numa pasta 'midias/')
+        const midias = [
+            { type: 'image', url: 'https://placehold.co/600x400/a1c4fd/333?text=Nossa+Foto+Linda+1', alt: 'Nossa Foto Linda 1' },
+            { type: 'image', url: 'https://placehold.co/600x400/c2e9fb/333?text=Outra+Memória+Especial+2', alt: 'Outra Memória Especial 2' },
+            { type: 'video', url: 'https://www.w3schools.com/html/mov_bbb.mp4', alt: 'Nosso Vídeo Divertido' }, // Exemplo de vídeo
+            { type: 'image', url: 'https://placehold.co/600x400/89a7c1/fff?text=Lembrança+Inesquecível+3', alt: 'Lembrança Inesquecível 3' },
+            // Adicione mais objetos de mídia aqui. Exemplo:
+            // { type: 'image', url: 'caminho/para/sua/foto.jpg', alt: 'Descrição da foto' },
+            // { type: 'video', url: 'caminho/para/seu/video.mp4', alt: 'Descrição do vídeo' },
+        ];
+
+        // --- Lógica do Contador Regressivo ---
+        function atualizarContador() {
+            const agora = new Date().getTime();
+            const diferenca = dataReencontro - agora;
+
+            if (diferenca <= 0) {
+                elementoCountdown.classList.add('hidden');
+                elementoMensagemReencontro.textContent = "Chegou o grande dia! Finalmente juntos! ❤️";
+                elementoMensagemReencontro.classList.remove('hidden');
+                clearInterval(intervaloContador); // Para o contador
+                return;
+            }
+
+            const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+            elementoDias.textContent = String(dias).padStart(2, '0');
+            elementoHoras.textContent = String(horas).padStart(2, '0');
+            elementoMinutos.textContent = String(minutos).padStart(2, '0');
+            elementoSegundos.textContent = String(segundos).padStart(2, '0');
+        }
+
+        // --- Lógica da Mídia Diária ---
+        function getDiaDoAno(data) {
+            const inicioDoAno = new Date(data.getFullYear(), 0, 0);
+            const diff = data - inicioDoAno;
+            const umDiaEmMs = 1000 * 60 * 60 * 24;
+            return Math.floor(diff / umDiaEmMs);
+        }
+
+        function atualizarMidia() {
+            const hoje = new Date();
+            const diaDoAno = getDiaDoAno(hoje);
+            const midiaContainer = document.getElementById('media-display');
+            midiaContainer.innerHTML = ''; // Limpa a mídia anterior
+
+            if (!midias || midias.length === 0) {
+                midiaContainer.innerHTML = '<p class="text-gray-600">Adicione suas mídias na lista do arquivo HTML para vê-las aqui!</p>';
+                return;
+            }
+
+            const indiceMidia = diaDoAno % midias.length; // Faz um rodízio pelas mídias disponíveis
+            const midiaAtual = midias[indiceMidia];
+
+            if (midiaAtual.type === 'image') {
+                const img = document.createElement('img');
+                img.src = midiaAtual.url;
+                img.alt = midiaAtual.alt || 'Imagem especial do dia';
+                // Adiciona um fallback para a imagem
+                img.onerror = function() {
+                    this.onerror=null; // Previne loop infinito se o placeholder também falhar
+                    this.src='https://placehold.co/600x400/FF0000/FFFFFF?text=Erro+ao+carregar+imagem';
+                    this.alt='Erro ao carregar imagem';
+                };
+                midiaContainer.appendChild(img);
+            } else if (midiaAtual.type === 'video') {
+                const video = document.createElement('video');
+                video.controls = true;
+                video.autoplay = true;
+                video.muted = true; // Autoplay geralmente requer que o vídeo esteja mudo
+                video.loop = true;
+                video.alt = midiaAtual.alt || 'Vídeo especial do dia';
+
+                const source = document.createElement('source');
+                source.src = midiaAtual.url;
+                source.type = 'video/mp4'; // Assumindo MP4. Adicione mais <source> para outros formatos se necessário
+
+                video.appendChild(source);
+                // Fallback para navegadores que não suportam a tag video ou o formato
+                video.appendChild(document.createTextNode('Seu navegador não suporta o elemento de vídeo ou o formato do arquivo.'));
+                video.onerror = function() {
+                    midiaContainer.innerHTML = '<p class="text-red-500">Erro ao carregar o vídeo. Verifique a URL.</p>';
+                }
+                midiaContainer.appendChild(video);
+                video.play().catch(e => {
+                    console.warn("Autoplay do vídeo bloqueado ou falhou:", e);
+                    // O navegador pode bloquear o autoplay se não houver interação do usuário ou se não estiver mudo.
+                    // 'controls' permite que o usuário inicie manualmente.
+                });
+            }
+        }
+
+        // --- Inicialização ---
+        atualizarContador(); // Chama uma vez para não esperar 1 segundo para mostrar
+        const intervaloContador = setInterval(atualizarContador, 1000);
+        
+        atualizarMidia(); // Carrega a mídia do dia ao iniciar
+
+        // Opcional: Atualizar a mídia periodicamente (ex: a cada hora) se o usuário deixar a página aberta
+        // setInterval(atualizarMidia, 1000 * 60 * 60); // A cada hora
+    </script>
+
+</body>
+</html>
